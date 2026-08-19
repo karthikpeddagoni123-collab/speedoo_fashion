@@ -3,7 +3,7 @@
 These are the **only** line of defense between a customer and an
 owner-only resource (per §5 and §6 of the spec):
 
-    * ``@owner_required`` -> 403 Forbidden if not the single authorized owner.
+    * ``@owner_required`` -> owner login for anonymous callers, 403 for customers.
     * ``@customer_required`` -> redirect to /login if not a logged-in customer.
 
 Never rely on hiding buttons in the HTML. The server enforces it.
@@ -24,13 +24,14 @@ def _is_customer() -> bool:
 
 
 def owner_required(view):
-    """Block any caller that isn't the single authorized owner. 403."""
+    """Require the single authorized owner for an owner-only resource."""
 
     @wraps(view)
     def wrapped(*args, **kwargs):
         if not _is_owner():
-            # Per the spec: customer accessing owner route -> 403 Forbidden.
-            abort(403)
+            if _is_customer():
+                abort(403)
+            return redirect(url_for("owner.owner_login"))
         return view(*args, **kwargs)
 
     return wrapped
