@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Men's Collection — Speedoo Fashion{% endblock %}
+
+{% block content %}
+<h2 style="margin-top:0">Men's Collection</h2>
+<div class="chips">
+    {% for cat in categories %}
+        <a class="chip {{ 'active' if cat==selected_category else '' }}"
+           href="{{ url_for('customer.shop', category=cat, q=search) }}">{{ cat }}</a>
+    {% endfor %}
+</div>
+
+{% if search %}
+    <p style="color:#888">Search results for <strong>"{{ search }}"</strong>.</p>
+{% endif %}
+
+{% if not products %}
+    <p>No products yet. The owner is curating the collection.</p>
+{% else %}
+<div class="product-grid">
+    {% for p in products %}
+    <div class="product-card">
+        <a class="img-wrap" href="{{ url_for('customer.product_detail', product_id=p['id']) }}">
+            <img src="{{ url_for('static', filename='uploads/' + p['image_file']) }}" alt="{{ p['name'] }}">
+        </a>
+        <div class="body">
+            <h4>{{ p['name'] }}</h4>
+            <div class="price">₹{{ '%0.0f' % p['price'] }}</div>
+            <div class="stock">{{ p['category'] }}</div>
+        </div>
+        <div class="actions">
+            <a class="btn secondary" style="flex:1;text-align:center"
+               href="{{ url_for('customer.product_detail', product_id=p['id']) }}">View</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Order #{{ order.id }} — Speedoo Fashion{% endblock %}
+
+{% block content %}
+{% if not compact %}
+<h2 style="margin-top:0">Order Confirmed ✓</h2>
+<p>Thank you for your order. The owner will begin processing it shortly.</p>
+{% else %}
+<h2 style="margin-top:0">Order #{{ order.id }}</h2>
+{% endif %}
+<table>
+    <tbody>
+    <tr><th style="width:160px">Order ID</th><td>#{{ order.id }}</td></tr>
+    <tr><th>Date</th><td>{{ order.created_at[:10] }}</td></tr>
+    <tr><th>Payment Method</th><td>{{ order.payment_method }} ({{ order.payment_status }})</td></tr>
+    <tr><th>Delivery To</th><td>{{ order.delivery_address }} — {{ order.delivery_pincode }}</td></tr>
+    <tr><th>Status</th><td>
+        <span class="badge {{ order.status|lower|replace(' ', '-') }}">{{ order.status }}</span>
+    </td></tr>
+    </tbody>
+</table>
+
+<h3>Items</h3>
+<table>
+    <thead><tr><th>Product</th><th>Size</th><th>Qty</th><th>Price</th><th>Subtotal</th></tr></thead>
+    <tbody>
+    {% for it in items %}
+        <tr><td>{{ it.product_name }}</td><td>{{ it.size }}</td><td>{{ it.quantity }}</td>
+            <td>₹{{ '%0.0f' % it.price }}</td>
+            <td>₹{{ '%0.0f' % (it.price * it.quantity) }}</td></tr>
+    {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr><th colspan="4" style="text-align:right">Total</th>
+            <th>₹{{ '%0.0f' % order.total }}</th></tr>
+    </tfoot>
+</table>
+
+<div style="margin-top:24px">
+    <a class="btn" href="{{ url_for('customer.my_orders') }}">View My Orders</a>
+    <a class="btn secondary" style="margin-left:8px" href="{{ url_for('customer.shop') }}">Continue Shopping</a>
+</div>
+{% endblock %}

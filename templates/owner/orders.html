@@ -1,0 +1,31 @@
+{% extends "owner/base_owner.html" %}
+{% block title %}Orders — Owner Panel{% endblock %}
+
+{% block content %}
+<h2>📦 Customer Orders</h2>
+{% if not orders %}
+    <p>No orders yet.</p>
+{% else %}
+<table>
+    <thead>
+        <tr><th>Order ID</th><th>Customer</th><th>Mobile</th><th>Pincode</th>
+            <th>Total</th><th>Payment</th><th>Status</th><th></th></tr>
+    </thead>
+    <tbody>
+    {% for o in orders %}
+        <tr>
+            <td>#{{ o.id }}</td>
+            <td>{{ o.customer.full_name if o.customer else '—' }}<br>
+                <small style="color:#888">{{ o.customer.email if o.customer else '' }}</small></td>
+            <td>{{ o.customer.mobile if o.customer else '—' }}</td>
+            <td>{{ o.delivery_pincode }}</td>
+            <td>₹{{ '%0.0f' % o.total }}</td>
+            <td>{{ o.payment_method }} ({{ o.payment_status }})</td>
+            <td><span class="badge {{ o.status|lower|replace(' ', '-') }}">{{ o.status }}</span></td>
+            <td><a class="btn secondary" href="{{ url_for('owner.order_detail', order_id=o.id) }}">Open</a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "owner/base_owner.html" %}
+{% block title %}{{ 'Add' if mode=='add' else 'Edit' }} Product — Owner Panel{% endblock %}
+
+{% block content %}
+<h2>{{ '➕ Add a New Product' if mode=='add' else '✏️ Edit Product' }}</h2>
+<p style="color:#888">Only the owner can upload and edit product photos. Allowed types: <code>.jpg .jpeg .png .webp</code> — max 5 MB.</p>
+
+<form method="post" enctype="multipart/form-data">
+    <div class="form-grid">
+        <div class="form-row">
+            <label>Product Name *</label>
+            <input name="name" value="{{ form.name }}" required>
+        </div>
+        <div class="form-row">
+            <label>Category *</label>
+            <select name="category" required>
+                {% for c in categories %}
+                    <option value="{{ c }}" {{ 'selected' if form.category==c else '' }}>{{ c }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-row">
+            <label>Price (₹) *</label>
+            <input name="price" type="number" step="1" min="1" value="{{ form.price }}" required>
+        </div>
+        <div class="form-row">
+            <label>Photo {{ '*' if mode=='add' else '(optional, replace)' }}</label>
+            <input type="file" name="photo" accept=".jpg,.jpeg,.png,.webp"
+                   {{ 'required' if mode=='add' else '' }}>
+        </div>
+        <div class="form-row" style="grid-column:1/3">
+            <label>Description</label>
+            <textarea name="description" rows="2">{{ form.description }}</textarea>
+        </div>
+        <div class="form-row" style="grid-column:1/3">
+            <label>Sizes & Stock (one per line: "M: 10")</label>
+            <textarea name="sizes" rows="5" required>{{ form.sizes_raw }}</textarea>
+        </div>
+    </div>
+    <button class="btn" type="submit">
+        {{ 'Publish Product' if mode=='add' else 'Save Changes' }}
+    </button>
+    <a class="btn secondary" style="margin-left:8px"
+       href="{{ url_for('owner.products_list') }}">Cancel</a>
+</form>
+{% endblock %}

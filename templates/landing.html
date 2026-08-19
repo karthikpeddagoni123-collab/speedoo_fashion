@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Speedoo Fashion — Men's Clothing{% endblock %}
+{% block header %}{% endblock %}
+
+{% block content %}
+<div class="landing">
+    <h1>SPEEDOO FASHION</h1>
+    <p class="tagline">Wear the style. Built and curated by the house.</p>
+    <p class="quote">
+        “Fashion is what you buy; style is what you do with it.”
+        <span class="author">— Unknown</span>
+    </p>
+    <a class="btn" href="{{ url_for('customer.enter') }}">Enter the Store</a>
+    <p style="margin-top:48px; color:#888;">© 2026 Speedoo Fashion · A single-owner men's fashion store.</p>
+</div>
+{% endblock %}

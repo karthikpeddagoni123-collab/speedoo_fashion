@@ -1,0 +1,17 @@
+{% extends "owner/base_owner.html" %}
+{% block title %}Settings — Owner Panel{% endblock %}
+
+{% block content %}
+<h2>⚙️ Settings</h2>
+
+<p>Speedoo Fashion is a single-owner store. There is one authorized owner,
+   configured via the <code>.env</code> file on the server.</p>
+
+<table>
+    <tr><th style="width:240px">Store Name</th><td>Speedoo Fashion</td></tr>
+    <tr><th>Owner Account</th><td>Exactly one. Seeded from .env. Login is restricted to that single user.</td></tr>
+    <tr><th>Multi-vendor Mode</th><td>Disabled — there are no sellers, vendors, or merchant accounts.</td></tr>
+    <tr><th>Customer Uploads</th><td>Disabled — customers never receive a product-upload form.</td></tr>
+    <tr><th>Categories</th><td>Shirts, Pants, Casual Wear, Formal Wear, Occasion Wear</td></tr>
+</table>
+{% endblock %}

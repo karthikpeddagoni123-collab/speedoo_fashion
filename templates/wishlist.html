@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Wishlist — Speedoo Fashion{% endblock %}
+
+{% block content %}
+<h2 style="margin-top:0">Wishlist</h2>
+{% if not products %}
+    <p>Your wishlist is empty. Browse the
+       <a href="{{ url_for('customer.shop') }}">shop</a> and tap the heart on anything you love.</p>
+{% else %}
+<div class="product-grid">
+{% for p in products %}
+    <div class="product-card">
+        <a class="img-wrap" href="{{ url_for('customer.product_detail', product_id=p.id) }}">
+            <img src="{{ url_for('static', filename='uploads/' + p.image_file) }}" alt="{{ p.name }}">
+        </a>
+        <div class="body">
+            <h4>{{ p.name }}</h4>
+            <div class="price">₹{{ '%0.0f' % p.price }}</div>
+            <div class="stock">{{ p.category }}</div>
+        </div>
+        <div class="actions">
+            <a class="btn secondary" style="flex:1;text-align:center"
+               href="{{ url_for('customer.product_detail', product_id=p.id) }}">View</a>
+            <form method="post" style="flex:1">
+                <input type="hidden" name="product_id" value="{{ p.id }}">
+                <button class="btn danger" style="width:100%" type="submit">Remove</button>
+            </form>
+        </div>
+    </div>
+{% endfor %}
+</div>
+{% endif %}
+{% endblock %}

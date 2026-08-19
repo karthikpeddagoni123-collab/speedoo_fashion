@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Checkout — Speedoo Fashion{% endblock %}
+
+{% block content %}
+<h2 style="margin-top:0">Checkout</h2>
+<form method="post">
+    <h3>Delivery Address</h3>
+    <div class="form-grid">
+        <div class="form-row" style="grid-column:1/3">
+            <label>Address</label>
+            <textarea name="address" rows="2" required>{{ default_address or '' }}</textarea>
+        </div>
+        <div class="form-row">
+            <label>Pincode (6 digits)</label>
+            <input name="pincode" pattern="[0-9]{6}" value="{{ default_pincode or '' }}" required>
+        </div>
+    </div>
+
+    <h3>Order Summary</h3>
+    <table>
+        <thead><tr><th>Item</th><th>Size</th><th>Qty</th><th>Price</th><th>Subtotal</th></tr></thead>
+        <tbody>
+        {% for it in items %}
+            <tr>
+                <td>{{ it.name }}</td>
+                <td>{{ it.size }}</td>
+                <td>{{ it.qty }}</td>
+                <td>₹{{ '%0.0f' % it.price }}</td>
+                <td>₹{{ '%0.0f' % it.line_total }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr><th colspan="4" style="text-align:right">Total</th>
+                <th>₹{{ '%0.0f' % total }}</th></tr>
+        </tfoot>
+    </table>
+
+    <h3>Payment Method</h3>
+    <div class="form-row">
+        {% for m in methods %}
+            <label style="margin-right:14px">
+                <input type="radio" name="payment_method" value="{{ m }}"
+                       {{ 'checked' if loop.first else '' }}> {{ m }}
+            </label>
+        {% endfor %}
+    </div>
+
+    <button class="btn" type="submit">Continue to Payment →</button>
+</form>
+{% endblock %}

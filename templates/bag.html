@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Bag — Speedoo Fashion{% endblock %}
+
+{% block content %}
+<h2 style="margin-top:0">Your Bag</h2>
+{% if not items %}
+    <p>Your bag is empty. <a href="{{ url_for('customer.shop') }}">Continue shopping →</a></p>
+{% else %}
+<table>
+    <thead>
+        <tr><th colspan="2">Product</th><th>Size</th><th>Qty</th><th>Price</th><th></th></tr>
+    </thead>
+    <tbody>
+    {% for it in items %}
+        <tr>
+            <td style="width:80px">
+                <img class="thumb" src="{{ url_for('static', filename='uploads/' + it.image) }}" alt="">
+            </td>
+            <td>{{ it.name }}</td>
+            <td>{{ it.size }}</td>
+            <td>
+                <form method="post" style="display:inline">
+                    <input type="hidden" name="product_id" value="{{ it.pid }}">
+                    <input type="hidden" name="action" value="decrease">
+                    <button class="btn secondary" type="submit">−</button>
+                </form>
+                <span style="padding:0 8px">{{ it.qty }}</span>
+                <form method="post" style="display:inline">
+                    <input type="hidden" name="product_id" value="{{ it.pid }}">
+                    <input type="hidden" name="action" value="increase">
+                    <button class="btn secondary" type="submit"
+                            {{ 'disabled' if it.qty>=it.stock_cap else '' }}>+</button>
+                </form>
+            </td>
+            <td>₹{{ '%0.0f' % it.line_total }}</td>
+            <td>
+                <form method="post" style="display:inline">
+                    <input type="hidden" name="product_id" value="{{ it.pid }}">
+                    <input type="hidden" name="action" value="remove">
+                    <button class="btn danger" type="submit">Remove</button>
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr><th colspan="4" style="text-align:right">Total</th>
+            <th colspan="2">₹{{ '%0.0f' % total }}</th></tr>
+    </tfoot>
+</table>
+<div style="margin-top:18px;text-align:right">
+    <a class="btn" href="{{ url_for('customer.checkout') }}">Proceed to Checkout →</a>
+</div>
+{% endif %}
+{% endblock %}

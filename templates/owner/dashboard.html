@@ -1,0 +1,34 @@
+{% extends "owner/base_owner.html" %}
+{% block title %}Dashboard — Owner Panel{% endblock %}
+
+{% block content %}
+<h2>📊 Dashboard</h2>
+
+<div class="stats">
+    <div class="stat"><div class="value">{{ product_count }}</div><div class="label">Products</div></div>
+    <div class="stat"><div class="value">{{ order_count }}</div><div class="label">Orders</div></div>
+    <div class="stat"><div class="value">{{ in_process }}</div><div class="label">In Process</div></div>
+    <div class="stat"><div class="value">₹{{ '%0.0f' % revenue }}</div><div class="label">Revenue (Delivered)</div></div>
+</div>
+
+<h3>Latest products</h3>
+{% if latest %}
+<div class="product-grid">
+    {% for p in latest %}
+    <div class="product-card">
+        <img class="img-wrap" src="{{ url_for('static', filename='uploads/' + p.image_file) }}">
+        <div class="body">
+            <h4>{{ p.name }}</h4>
+            <div class="stock">{{ p.category }} · ₹{{ '%0.0f' % p.price }}</div>
+        </div>
+        <div class="actions">
+            <a class="btn secondary" style="flex:1;text-align:center"
+               href="{{ url_for('owner.product_edit', product_id=p.id) }}">Edit</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p>No products yet. <a href="{{ url_for('owner.product_add') }}">Add your first product →</a></p>
+{% endif %}
+{% endblock %}

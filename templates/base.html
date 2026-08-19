@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>{% block title %}Speedoo Fashion{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+{% block header %}
+<header class="site-header">
+    <a class="brand" href="{{ url_for('customer.landing') }}">Speedoo Fashion</a>
+    <form class="search-form" action="{{ url_for('customer.shop') }}" method="get">
+        <input name="q" placeholder="SEARCH MEN'S COLLECTION" value="{{ request.args.get('q','') }}">
+        <button class="btn secondary" type="submit">Search</button>
+    </form>
+    <nav>
+        <a href="{{ url_for('customer.shop') }}">Shop</a>
+        <a href="{{ url_for('customer.wishlist') }}">Wishlist</a>
+        <a href="{{ url_for('customer.bag') }}">Bag
+            {% set _count = 0 %}
+            {% for _ in session.get('cart', {}).values() %}{% set _count = _count + _['qty'] %}{% endfor %}
+            ({{ _count }})
+        </a>
+        {% if session.get('role') == 'customer' %}
+            <a href="{{ url_for('customer.profile') }}">{{ session.get('username','Account') }}</a>
+            <form method="post" action="{{ url_for('customer.customer_logout') }}" style="display:inline">
+                <button class="btn secondary" type="submit">Logout</button>
+            </form>
+        {% else %}
+            <a href="{{ url_for('customer.auth') }}">Account</a>
+        {% endif %}
+        <a href="{{ url_for('owner.owner_login') }}">Owner Login</a>
+    </nav>
+</header>
+{% endblock %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div style="max-width:1280px;margin:0 auto;padding:16px 28px 0;">
+            {% for cat, msg in messages %}
+                <div class="flash {{ cat }}">{{ msg }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+<div class="layout">
+    <aside class="sidebar">
+        <h3>Categories</h3>
+        <ul>
+            <li><a class="{{ 'active' if selected_category=='All' or not selected_category else '' }}"
+                   href="{{ url_for('customer.shop') }}">New Arrivals</a></li>
+            {% for cat in categories %}
+                <li><a class="{{ 'active' if selected_category==cat else '' }}"
+                       href="{{ url_for('customer.shop', category=cat) }}">{{ cat }}</a></li>
+            {% endfor %}
+        </ul>
+
+        <h3 style="margin-top:24px">Account</h3>
+        <ul>
+            {% if session.get('role') == 'customer' %}
+                <li><a href="{{ url_for('customer.profile') }}">My Profile</a></li>
+                <li><a href="{{ url_for('customer.my_orders') }}">My Orders</a></li>
+            {% else %}
+                <li><a href="{{ url_for('customer.auth') }}">Login / Signup</a></li>
+            {% endif %}
+        </ul>
+    </aside>
+    <section class="main">
+        {% block content %}{% endblock %}
+    </section>
+</div>
+</body>
+</html>

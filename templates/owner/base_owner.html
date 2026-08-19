@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>{% block title %}Owner Panel — Speedoo Fashion{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div style="padding:16px 24px 0;">
+            {% for cat, msg in messages %}
+                <div class="flash {{ cat }}">{{ msg }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+<div class="owner-shell">
+    <aside class="owner-sidebar">
+        <h3>Speedoo Fashion — Owner Panel</h3>
+        <ul>
+            <li><a href="{{ url_for('owner.dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('owner.products_list') }}">Products</a></li>
+            <li><a href="{{ url_for('owner.inventory') }}">Inventory</a></li>
+            <li><a href="{{ url_for('owner.orders_list') }}">Orders</a></li>
+            <li><a href="{{ url_for('owner.order_detail', order_id=0) }}" onclick="event.preventDefault()">Delivery</a>
+                <div style="padding-left:12px;font-size:12px;color:#aaa">
+                    See inside each order</div></li>
+            <li><a href="{{ url_for('owner.customers_list') }}">Customers</a></li>
+            <li><a href="{{ url_for('owner.settings') }}">Settings</a></li>
+            <li>
+                <form method="post" action="{{ url_for('owner.owner_logout') }}" style="margin-top:12px">
+                    <button class="btn secondary" type="submit" style="width:100%;background:#333;color:#fff;border-color:#555">Logout</button>
+                </form>
+            </li>
+        </ul>
+        <p style="margin-top:24px;font-size:11px;color:#888">Single-owner store · Only the authorized owner can manage products.</p>
+    </aside>
+
+    <section class="owner-content">
+        {% block content %}{% endblock %}
+    </section>
+</div>
+</body>
+</html>

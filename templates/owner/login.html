@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Owner Login — Speedoo Fashion</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div style="padding:16px 24px 0;">
+            {% for cat, msg in messages %}<div class="flash {{ cat }}">{{ msg }}</div>{% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+<div style="max-width:420px; margin:80px auto; background:#fff; border:1px solid #eee;
+            border-radius:8px; padding:32px;">
+    <h2 style="margin-top:0; text-transform:uppercase;">🛡️ Owner Login</h2>
+    <p style="color:#888">Restricted area — only the single authorized owner may access this.</p>
+    <form method="post">
+        <div class="form-row">
+            <label>Owner Username</label>
+            <input name="username" required autofocus>
+        </div>
+        <div class="form-row">
+            <label>Owner Password</label>
+            <input name="password" type="password" required>
+        </div>
+        <button class="btn" type="submit" style="width:100%">Login as Owner</button>
+    </form>
+    <p style="margin-top:18px;font-size:12px;color:#888;text-align:center">
+        <a href="{{ url_for('customer.landing') }}">← Back to store</a>
+    </p>
+</div>
+</body>
+</html>

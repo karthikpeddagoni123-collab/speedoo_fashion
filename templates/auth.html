@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Login / Signup — Speedoo Fashion{% endblock %}
+
+{% block content %}
+<h1 style="margin-top:0">Welcome to Speedoo Fashion</h1>
+<p style="color:#888; margin-top:-4px">Customers log in or sign up below.
+   The Owner portal is separate — only one authorized owner manages the store.</p>
+
+<div class="auth-tabs">
+    <a href="{{ url_for('customer.auth', tab='login') }}"
+       class="{{ 'active' if tab!='signup' else '' }}">Customer Login</a>
+    <a href="{{ url_for('customer.auth', tab='signup') }}"
+       class="{{ 'active' if tab=='signup' else '' }}">Customer Signup</a>
+    <a href="{{ url_for('owner.owner_login') }}">Owner Login</a>
+</div>
+
+{% if tab == 'signup' %}
+<form method="post" action="{{ url_for('customer.auth') }}?tab=signup">
+    <input type="hidden" name="tab" value="signup">
+    <div class="form-grid">
+        <div class="form-row">
+            <label>Full Name *</label>
+            <input name="full_name" required>
+        </div>
+        <div class="form-row">
+            <label>Username *</label>
+            <input name="username" required>
+        </div>
+        <div class="form-row">
+            <label>Email *</label>
+            <input name="email" type="email" required>
+        </div>
+        <div class="form-row">
+            <label>Mobile (10 digits) *</label>
+            <input name="mobile" pattern="[0-9]{10}" required>
+        </div>
+        <div class="form-row">
+            <label>Delivery Address *</label>
+            <input name="address" required>
+        </div>
+        <div class="form-row">
+            <label>Pincode (6 digits) *</label>
+            <input name="pincode" pattern="[0-9]{6}" required>
+        </div>
+        <div class="form-row">
+            <label>Password (min 6 chars) *</label>
+            <input name="password" type="password" minlength="6" required>
+        </div>
+        <div class="form-row">
+            <label>Confirm Password *</label>
+            <input name="confirm" type="password" minlength="6" required>
+        </div>
+    </div>
+    <button class="btn" type="submit">Create Account</button>
+</form>
+{% else %}
+<form method="post" action="{{ url_for('customer.auth') }}?tab=login">
+    <input type="hidden" name="tab" value="login">
+    <div class="form-row">
+        <label>Username or Email</label>
+        <input name="identifier" required autofocus>
+    </div>
+    <div class="form-row">
+        <label>Password</label>
+        <input name="password" type="password" required>
+    </div>
+    <button class="btn" type="submit">Login</button>
+    <a class="btn secondary" style="margin-left:8px"
+       href="{{ url_for('customer.auth', tab='signup') }}">Create an account</a>
+</form>
+{% endif %}
+{% endblock %}

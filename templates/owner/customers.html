@@ -1,0 +1,26 @@
+{% extends "owner/base_owner.html" %}
+{% block title %}Customers — Owner Panel{% endblock %}
+
+{% block content %}
+<h2>👥 Customers</h2>
+{% if not customers %}
+    <p>No customers have signed up yet.</p>
+{% else %}
+<table>
+    <thead><tr><th>ID</th><th>Name</th><th>Username</th><th>Email</th>
+        <th>Mobile</th><th>Pincode</th></tr></thead>
+    <tbody>
+    {% for c in customers %}
+        <tr>
+            <td>#{{ c.id }}</td>
+            <td>{{ c.full_name }}</td>
+            <td>{{ c.username }}</td>
+            <td>{{ c.email }}</td>
+            <td>{{ c.mobile }}</td>
+            <td>{{ c.pincode }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}My Profile — Speedoo Fashion{% endblock %}
+
+{% block content %}
+<h2 style="margin-top:0">My Profile</h2>
+<table>
+    <tr><th style="width:160px">Full Name</th><td>{{ customer.full_name }}</td></tr>
+    <tr><th>Username</th><td>{{ customer.username }}</td></tr>
+    <tr><th>Email</th><td>{{ customer.email }}</td></tr>
+    <tr><th>Mobile</th><td>{{ customer.mobile }}</td></tr>
+    <tr><th>Address</th><td>{{ customer.address }}</td></tr>
+    <tr><th>Pincode</th><td>{{ customer.pincode }}</td></tr>
+</table>
+
+<h3>Update Delivery Address</h3>
+<form method="post">
+    <div class="form-grid">
+        <div class="form-row" style="grid-column:1/3">
+            <label>Address</label>
+            <textarea name="address" rows="2" required>{{ customer.address }}</textarea>
+        </div>
+        <div class="form-row">
+            <label>Pincode</label>
+            <input name="pincode" pattern="[0-9]{6}" value="{{ customer.pincode }}" required>
+        </div>
+    </div>
+    <button class="btn" type="submit">Save</button>
+</form>
+{% endblock %}
