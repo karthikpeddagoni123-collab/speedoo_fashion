@@ -1,3 +1,10 @@
+from __future__ import annotations
+
+import datetime
+import sqlite3
+from typing import Any
+
+from db import execute, query, query_one
 def list_products(category: str | None = None, search: str | None = None):
     """Return products, optionally filtered by category and search text."""
 
