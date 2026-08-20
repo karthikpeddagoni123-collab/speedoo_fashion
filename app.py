@@ -67,7 +67,7 @@ def create_app() -> Flask:
         return render_template(
             "error.html",
             title="Something went wrong",
-            message="Please try again later.",
+            message=f"{type(e).__name__}: {e}",
             back="/"
         ), 500
 
