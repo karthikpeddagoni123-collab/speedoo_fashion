@@ -35,6 +35,7 @@ OWNER_PASSWORD: str = os.getenv(
 # ---------- Storage ----------
 # Vercel serverless functions cannot use the deployed project
 # directory as persistent writable storage.
+# ---------- Storage ----------
 if os.getenv("VERCEL"):
     DB_PATH: str = os.getenv(
         "DB_PATH",
@@ -55,8 +56,6 @@ else:
         "UPLOAD_DIR",
         "static/uploads"
     )
-
-
 # ---------- Constraints ----------
 MAX_UPLOAD_BYTES: int = int(
     os.getenv(
