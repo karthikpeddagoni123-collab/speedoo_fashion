@@ -9,21 +9,62 @@ load_dotenv()
 
 
 # ---------- Flask ----------
-FLASK_SECRET: str = os.getenv("FLASK_SECRET", "change_this_flask_secret")
+FLASK_SECRET: str = os.getenv(
+    "FLASK_SECRET",
+    "change_this_flask_secret"
+)
 
 # ---------- Password hashing pepper ----------
-SECRET_KEY: str = os.getenv("SECRET_KEY", "change_this_app_secret")
+SECRET_KEY: str = os.getenv(
+    "SECRET_KEY",
+    "change_this_app_secret"
+)
 
-# ---------- Owner credentials (single authorized owner) ----------
-OWNER_USERNAME: str = os.getenv("OWNER_USERNAME", "admin")
-OWNER_PASSWORD: str = os.getenv("OWNER_PASSWORD", "admin123")
+# ---------- Owner credentials ----------
+OWNER_USERNAME: str = os.getenv(
+    "OWNER_USERNAME",
+    "admin"
+)
+
+OWNER_PASSWORD: str = os.getenv(
+    "OWNER_PASSWORD",
+    "admin123"
+)
+
 
 # ---------- Storage ----------
-DB_PATH: str = os.getenv("DB_PATH", "speedoo.db")
-UPLOAD_DIR: str = os.getenv("UPLOAD_DIR", "static/uploads")
+# Vercel serverless functions cannot use the deployed project
+# directory as persistent writable storage.
+if os.getenv("VERCEL"):
+    DB_PATH: str = os.getenv(
+        "DB_PATH",
+        "/tmp/speedoo.db"
+    )
+
+    UPLOAD_DIR: str = os.getenv(
+        "UPLOAD_DIR",
+        "/tmp/speedoo_uploads"
+    )
+else:
+    DB_PATH: str = os.getenv(
+        "DB_PATH",
+        "speedoo.db"
+    )
+
+    UPLOAD_DIR: str = os.getenv(
+        "UPLOAD_DIR",
+        "static/uploads"
+    )
+
 
 # ---------- Constraints ----------
-MAX_UPLOAD_BYTES: int = int(os.getenv("MAX_UPLOAD_BYTES", str(5 * 1024 * 1024)))
+MAX_UPLOAD_BYTES: int = int(
+    os.getenv(
+        "MAX_UPLOAD_BYTES",
+        str(5 * 1024 * 1024)
+    )
+)
+
 
 # ---------- Domain constants ----------
 CATEGORIES: list[str] = [
@@ -33,6 +74,7 @@ CATEGORIES: list[str] = [
     "Formal Wear",
     "Occasion Wear",
 ]
+
 
 ORDER_STATUSES: list[str] = [
     "Order Placed",
@@ -45,6 +87,17 @@ ORDER_STATUSES: list[str] = [
     "Cancelled",
 ]
 
-PAYMENT_METHODS: list[str] = ["Card", "UPI", "Cash on Delivery"]
 
-ALLOWED_IMAGE_EXTENSIONS: set[str] = {".jpg", ".jpeg", ".png", ".webp"}
+PAYMENT_METHODS: list[str] = [
+    "Card",
+    "UPI",
+    "Cash on Delivery",
+]
+
+
+ALLOWED_IMAGE_EXTENSIONS: set[str] = {
+    ".jpg",
+    ".jpeg",
+    ".png",
+    ".webp"
+}
