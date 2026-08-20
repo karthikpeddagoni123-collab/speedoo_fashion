@@ -18,7 +18,7 @@
     <tbody>
     {% for p in products %}
         <tr id="p-{{ p.id }}">
-            <td><img class="thumb" src="{{ url_for('static', filename='uploads/' + p.image_file) }}"></td>
+            <td><img class="thumb" src="{{ p.image_file }}"></td>
             <td>{{ p.name }}</td>
             <td>{{ p.category }}</td>
             <td>₹{{ '%0.0f' % p.price }}</td>

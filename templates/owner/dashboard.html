@@ -16,7 +16,7 @@
 <div class="product-grid">
     {% for p in latest %}
     <div class="product-card">
-        <img class="img-wrap" src="{{ url_for('static', filename='uploads/' + p.image_file) }}">
+       <img class="img-wrap" src="{{ p.image_file }}">
         <div class="body">
             <h4>{{ p.name }}</h4>
             <div class="stock">{{ p.category }} · ₹{{ '%0.0f' % p.price }}</div>

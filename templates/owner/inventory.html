@@ -13,7 +13,7 @@
           action="{{ url_for('owner.inventory_update', product_id=r.product.id) }}"
           style="border:1px solid #eee;border-radius:8px;padding:14px;margin-bottom:14px">
         <div style="display:flex;align-items:center;gap:14px">
-            <img class="thumb" src="{{ url_for('static', filename='uploads/' + r.product.image_file) }}">
+          <img class="thumb" src="{{ r.product.image_file }}">
             <div style="flex:1">
                 <strong>{{ r.product.name }}</strong>
                 <small style="color:#888"> · {{ r.product.category }} · ₹{{ '%0.0f' % r.product.price }} · Total: {{ r.total }}</small>

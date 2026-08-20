@@ -14,7 +14,7 @@
     {% for it in items %}
         <tr>
             <td style="width:80px">
-                <img class="thumb" src="{{ url_for('static', filename='uploads/' + it.image) }}" alt="">
+                <img class="thumb" src="{{ it.image }}" alt="">
             </td>
             <td>{{ it.name }}</td>
             <td>{{ it.size }}</td>

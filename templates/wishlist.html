@@ -11,7 +11,7 @@
 {% for p in products %}
     <div class="product-card">
         <a class="img-wrap" href="{{ url_for('customer.product_detail', product_id=p.id) }}">
-            <img src="{{ url_for('static', filename='uploads/' + p.image_file) }}" alt="{{ p.name }}">
+         <img src="{{ p.image_file }}" alt="{{ p.name }}">
         </a>
         <div class="body">
             <h4>{{ p.name }}</h4>
