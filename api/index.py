@@ -1,7 +1,12 @@
-from flask import Flask
+import sys
+from pathlib import Path
 
-app = Flask(__name__)
+# Add the project root to Python's import path
+ROOT_DIR = Path(__file__).resolve().parent.parent
 
-@app.route("/")
-def home():
-    return "Speedoo Fashion is working!"
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+
+from app import app
+
+# Vercel uses this Flask application object
